@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  h1, h2, h3, .font-cinzel {
+    font-family: 'Cinzel', Georgia, serif;
+    letter-spacing: 0.05em;
+  }
+  .font-serif-luxury {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .font-sans-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom luxury scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060D17;
+}
+::-webkit-scrollbar-thumb {
+  background: #C49A45;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #DFBA6B;
+}
+
+@keyframes goldShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.gold-shimmer {
+  background: linear-gradient(90deg, #c49a45 0%, #fae8b2 50%, #c49a45 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldShimmer 7s linear infinite;
+}
+
+.gold-border-glow {
+  box-shadow: 0 0 25px rgba(196, 154, 69, 0.15);
+}
+
+.gold-border-glow:hover {
+  box-shadow: 0 0 35px rgba(196, 154, 69, 0.3);
+}
