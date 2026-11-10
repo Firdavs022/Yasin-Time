@@ -47,6 +47,9 @@ interface AppContextType {
   setRole: (role: UserRole) => void;
   isAdminOpen: boolean;
   setIsAdminOpen: (open: boolean) => void;
+  isAdminAuthenticated: boolean;
+  adminLogin: (login: string, pass: string) => boolean;
+  adminLogout: () => void;
   selectedPropertyForModal: Property | null;
   setSelectedPropertyForModal: (property: Property | null) => void;
   isLeadModalOpen: boolean;
@@ -101,33 +104,57 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const checkIsAdminRoute = () => {
     const hash = window.location.hash.toLowerCase();
     const path = window.location.pathname.toLowerCase();
-    return hash.includes('admin') || path.includes('admin');
+    return hash.includes('admin') || path.includes('admin') || path === '/admin';
   };
 
   const [isAdminOpen, setIsAdminOpenState] = useState<boolean>(() => checkIsAdminRoute());
 
+  // Admin authentication (login: admin, password: yasin4545)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    return (
+      sessionStorage.getItem('yasintime_admin_auth') === 'true' ||
+      localStorage.getItem('yasintime_admin_auth') === 'true'
+    );
+  });
+
+  const adminLogin = (login: string, pass: string): boolean => {
+    if (login.trim() === 'admin' && pass.trim() === 'yasin4545') {
+      setIsAdminAuthenticated(true);
+      sessionStorage.setItem('yasintime_admin_auth', 'true');
+      return true;
+    }
+    return false;
+  };
+
+  const adminLogout = () => {
+    setIsAdminAuthenticated(false);
+    sessionStorage.removeItem('yasintime_admin_auth');
+    localStorage.removeItem('yasintime_admin_auth');
+    setIsAdminOpen(false);
+  };
+
   const setIsAdminOpen = (open: boolean) => {
     setIsAdminOpenState(open);
     if (open) {
-      if (!window.location.hash.includes('admin')) {
-        window.location.hash = '/admin';
+      if (window.location.pathname !== '/admin') {
+        window.history.pushState(null, '', '/admin');
       }
     } else {
-      if (window.location.hash.includes('admin')) {
-        window.location.hash = '';
+      if (window.location.pathname === '/admin' || window.location.hash.includes('admin')) {
+        window.history.pushState(null, '', '/');
       }
     }
   };
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       setIsAdminOpenState(checkIsAdminRoute());
     };
-    window.addEventListener('hashchange', handleHashChange);
-    window.addEventListener('popstate', handleHashChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-      window.removeEventListener('popstate', handleHashChange);
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
     };
   }, []);
 
@@ -541,6 +568,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setRole,
         isAdminOpen,
         setIsAdminOpen,
+        isAdminAuthenticated,
+        adminLogin,
+        adminLogout,
         selectedPropertyForModal,
         setSelectedPropertyForModal,
         isLeadModalOpen,

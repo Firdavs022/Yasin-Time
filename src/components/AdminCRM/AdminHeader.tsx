@@ -8,6 +8,7 @@ import {
   UserCheck,
   PlusCircle,
   Download,
+  LogOut,
 } from 'lucide-react';
 
 interface AdminHeaderProps {
@@ -25,6 +26,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ activeTab, setActiveTa
     exportLeadsCSV,
     exportFinanceCSV,
     leads,
+    adminLogout,
   } = useApp();
   const t = translations[language];
 
@@ -79,6 +81,16 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ activeTab, setActiveTa
               <option value="accountant" className="bg-[#091526] text-white">{t.admin.roleAccountant}</option>
             </select>
           </div>
+
+          {/* Logout button */}
+          <button
+            onClick={adminLogout}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/30 bg-red-500/10 hover:bg-red-500 text-red-300 hover:text-white text-xs font-semibold transition-all shadow-sm cursor-pointer"
+            title="Admin tizimidan chiqish"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Chiqish</span>
+          </button>
         </div>
       </div>
 

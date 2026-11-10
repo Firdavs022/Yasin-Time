@@ -15,9 +15,10 @@ import { Footer } from './components/Footer';
 import { PropertyDiscoverModal } from './components/PropertyDiscoverModal';
 import { LeadModal } from './components/LeadModal';
 import { AdminDashboard } from './components/AdminCRM/AdminDashboard';
+import { AdminLoginScreen } from './components/AdminCRM/AdminLoginScreen';
 
 const MainContent: React.FC = () => {
-  const { isAdminOpen, theme } = useApp();
+  const { isAdminOpen, isAdminAuthenticated, theme } = useApp();
   const isDark = theme === 'dark';
 
   return (
@@ -25,7 +26,11 @@ const MainContent: React.FC = () => {
       isDark ? 'bg-[#060D17] text-[#EDE7DE]' : 'bg-[#FAF8F5] text-[#0A1628]'
     }`}>
       {isAdminOpen ? (
-        <AdminDashboard />
+        isAdminAuthenticated ? (
+          <AdminDashboard />
+        ) : (
+          <AdminLoginScreen />
+        )
       ) : (
         <>
           <Header />
