@@ -6,7 +6,6 @@ import { BrandLogo } from '../BrandLogo';
 import {
   ArrowLeft,
   UserCheck,
-  PlusCircle,
   Download,
   LogOut,
 } from 'lucide-react';
@@ -22,7 +21,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ activeTab, setActiveTa
     role,
     setRole,
     setIsAdminOpen,
-    simulateTestLead,
     exportLeadsCSV,
     exportFinanceCSV,
     leads,
@@ -57,16 +55,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ activeTab, setActiveTa
 
         {/* Center / Right controls */}
         <div className="flex flex-wrap items-center gap-2.5">
-          {/* Add test lead */}
-          <button
-            onClick={simulateTestLead}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/40 hover:bg-emerald-600 text-emerald-300 hover:text-white text-xs font-semibold transition-all shadow-sm"
-            title="Yangi arizani kiritish"
-          >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">{t.admin.simulateLeadBtn}</span>
-            <span className="sm:hidden">+ Ariza</span>
-          </button>
 
           {/* Role-based Access Control Switcher */}
           <div className="flex items-center gap-1.5 bg-[#091526] px-2.5 py-1 rounded-lg border border-[#C49A45]/30">

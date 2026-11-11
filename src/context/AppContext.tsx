@@ -56,7 +56,6 @@ interface AppContextType {
   setIsLeadModalOpen: (open: boolean) => void;
   leadModalPropertyInterest: Property | null;
   openLeadModalWithProperty: (property: Property | null) => void;
-  simulateTestLead: () => void;
   exportLeadsCSV: () => void;
   exportFinanceCSV: () => void;
 }
@@ -192,12 +191,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('yasintime_categories', JSON.stringify(categories));
   }, [categories]);
 
-  // Leads state (Starts at ZERO as requested!)
+  // Leads state (Starts at ZERO - strictly real leads from website form submissions only)
   const [leads, setLeads] = useState<Lead[]>(() => {
-    const saved = localStorage.getItem('yasintime_leads_v2');
+    const mockNames = ['Alisher Usmonov', 'Farhod Rahimov', 'Jamshid Karimov', 'Shahnoza Alimova'];
+    const saved = localStorage.getItem('yasintime_leads_v3') || localStorage.getItem('yasintime_leads_v2');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed: Lead[] = JSON.parse(saved);
+        return parsed.filter((l) => !mockNames.includes(l.name));
       } catch (e) {
         console.error('Failed to parse leads', e);
       }
@@ -206,7 +207,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
 
   useEffect(() => {
-    localStorage.setItem('yasintime_leads_v2', JSON.stringify(leads));
+    localStorage.setItem('yasintime_leads_v3', JSON.stringify(leads));
   }, [leads]);
 
   // Expenses state (Starts at ZERO as requested!)
@@ -465,29 +466,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }).catch(() => {});
   };
 
-  // Simulate a test lead
-  const simulateTestLead = () => {
-    const sampleNames = ['Alisher Usmonov', 'Farhod Rahimov', 'Jamshid Karimov', 'Shahnoza Alimova'];
-    const samplePhones = ['+998 90 123 45 67', '+998 93 456 78 90', '+998 97 789 12 34', '+998 99 333 44 55'];
-    const sampleBudgets = ['$250,000 - $500,000', '$500,000 - $1,000,000', '$1,000,000+'];
-    const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-    const randomPhone = samplePhones[Math.floor(Math.random() * samplePhones.length)];
-    const randomBudget = sampleBudgets[Math.floor(Math.random() * sampleBudgets.length)];
-
-    addLead({
-      name: randomName,
-      phone: randomPhone,
-      email: `${randomName.toLowerCase().replace(' ', '.')}@mail.uz`,
-      propertyInterestId: 'sig-offplan-1',
-      propertyTitle: 'Azizi Venice Shaffof Laguna Majmuasi',
-      budget: randomBudget,
-      dealType: 'offplan',
-      preferredTime: "15 daqiqada bog'lanish",
-      message: "Dubaydagi yangi loyiha bo'yicha to'lov rejasini yuboring.",
-      source: "Veb-sayt arizasi",
-    });
-  };
-
   // Export functions with UTF-8 BOM
   const exportLeadsCSV = () => {
     const headers = ['ID', 'Mijoz Ismi', 'Telefon', 'Email', 'Qiziqqan Obyekt', 'Byudjet', 'Mulk Turi', 'Status', 'Menejer', 'Izoh', 'Sana'];
@@ -577,7 +555,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsLeadModalOpen,
         leadModalPropertyInterest,
         openLeadModalWithProperty,
-        simulateTestLead,
         exportLeadsCSV,
         exportFinanceCSV,
       }}

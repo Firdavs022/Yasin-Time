@@ -14,7 +14,6 @@ import {
   Trash2,
   Download,
   Search,
-  PlusCircle,
 } from 'lucide-react';
 
 export const LeadsPipeline: React.FC = () => {
@@ -26,7 +25,6 @@ export const LeadsPipeline: React.FC = () => {
     updateLeadNotes,
     deleteLead,
     exportLeadsCSV,
-    simulateTestLead,
     role,
   } = useApp();
   const t = translations[language];
@@ -200,20 +198,13 @@ export const LeadsPipeline: React.FC = () => {
 
       {/* When leads are 0 */}
       {leads.length === 0 && (
-        <div className="p-8 rounded-2xl bg-[#091526]/50 border border-dashed border-[#C49A45]/30 text-center space-y-3">
+        <div className="p-8 rounded-2xl bg-[#091526]/50 border border-dashed border-[#C49A45]/30 text-center space-y-2">
           <div className="text-sm font-semibold text-white">
             Hozircha arizalar mavjud emas (0 ta ariza)
           </div>
           <p className="text-xs text-[#94A3B8] max-w-md mx-auto">
-            Mijozlar asosiy saytdagi ariza formasini to'ldirganda ma'lumotlar avtomatik shu yerda aks etadi. Yoki test qilish uchun quyidagi tugmani bosing:
+            Mijozlar asosiy veb-sayt orqali anketani to'ldirgan zahoti barcha arizalar real vaqt rejimida ushbu CRM tizimida avtomatik paydo bo'ladi.
           </p>
-          <button
-            onClick={simulateTestLead}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#C49A45] text-[#060D17] text-xs font-bold"
-          >
-            <PlusCircle className="w-4 h-4" />
-            <span>Yangi Ariza Kiritish</span>
-          </button>
         </div>
       )}
 

@@ -8,14 +8,14 @@ import {
   Instagram,
   Send,
   Phone,
+  Mail,
   Globe,
   MapPin,
   Check,
-  Shield,
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { language, setLanguage, theme, setIsAdminOpen } = useApp();
+  const { language, setLanguage, theme } = useApp();
   const t = translations[language];
 
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -125,6 +125,14 @@ export const Footer: React.FC = () => {
               </a>
 
               <a
+                href="mailto:ooo.yasintime@gmail.com"
+                className="w-9 h-9 rounded-full bg-[#0A1628] text-white hover:bg-[#C49A45] hover:text-[#060D17] flex items-center justify-center transition-all shadow-md"
+                title="Email: ooo.yasintime@gmail.com"
+              >
+                <Mail className="w-4 h-4" />
+              </a>
+
+              <a
                 href="tel:+998508767722"
                 className="w-9 h-9 rounded-full bg-[#0A1628] text-white hover:bg-emerald-600 flex items-center justify-center transition-all shadow-md"
                 title="+998 50 876 77 22"
@@ -146,15 +154,6 @@ export const Footer: React.FC = () => {
               <li className="hover:text-[#C49A45] cursor-pointer transition-colors">{t.footer.corporateTeam}</li>
               <li className="hover:text-[#C49A45] cursor-pointer transition-colors">{t.footer.contactUs}</li>
               <li className="hover:text-[#C49A45] cursor-pointer transition-colors">{t.footer.careers}</li>
-              <li>
-                <button
-                  onClick={() => setIsAdminOpen(true)}
-                  className="text-[#C49A45] hover:underline font-semibold flex items-center gap-1.5 pt-1"
-                >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>{t.footer.adminLogin}</span>
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -182,6 +181,21 @@ export const Footer: React.FC = () => {
               {t.footer.services}
             </h4>
             <div className={`space-y-3 text-xs ${isDark ? 'text-[#94A3B8]' : 'text-[#475569]'}`}>
+              {/* Official Email */}
+              <div className="flex items-start gap-2">
+                <Mail className="w-4 h-4 text-[#C49A45] flex-shrink-0 mt-0.5" />
+                <div>
+                  <a
+                    href="mailto:ooo.yasintime@gmail.com"
+                    className={`font-bold hover:text-[#C49A45] transition-colors ${isDark ? 'text-white' : 'text-[#0A1628]'}`}
+                  >
+                    ooo.yasintime@gmail.com
+                  </a>
+                  <div className="text-[10px] text-[#A0AEC0]">Rasmiy elektron pochta</div>
+                </div>
+              </div>
+
+              {/* Phone */}
               <div className="flex items-start gap-2">
                 <Phone className="w-4 h-4 text-[#C49A45] flex-shrink-0 mt-0.5" />
                 <div>
@@ -190,6 +204,7 @@ export const Footer: React.FC = () => {
                 </div>
               </div>
 
+              {/* Office Address */}
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#C49A45] flex-shrink-0 mt-0.5" />
                 <div>
